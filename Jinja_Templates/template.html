@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Candidate Lists</title>
+    <style>
+        .flex-container {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 10rem;
+          padding: 1rem;
+          background-color: DodgerBlue;
+        }
+</style>
+</head>
+<body>
+
+<div class="flex-container">
+    <div>
+        <h1>kandidaten lijsten</h1>
+        {% set outer_index = 0 %}
+        {% for key, valueDict in voorkeur.items() %}
+        {% set outer_index = outer_index + 1 %}
+            <h2>{{ key }}</h2>
+            <ul>
+                {% set sorted_values = valueDict.values() | sort(reverse=True) %}
+                {% set max_value = sorted_values[0] %}
+                {% set sec_max_value = sorted_values[1]%}
+
+                {% for key, value in valueDict.items() %}
+                    <li>{{ key }}: {{ value }}
+                        {% if zetels[outer_index] == 1 %}
+                            {% if value == max_value%}
+                                gekozen voor zetel!
+                            {% endif%}</li>
+                        {% else %}
+                            {% if value == max_value or value == sec_max_value %}
+                                Gekozen voor zetel!
+                            {% endif%}</li>
+                        {% endif%}
+                {% endfor %}
+            </ul>
+
+        {% endfor %}
+    </div>
+    <div>
+        <h1>partij lijsten</h1>
+        {% for key, value in lijst.items()%}
+            <h2>{{ key }} : {{ value }}</h2>
+        {% endfor %}
+
+        {% for key, value in zetels.items()%}
+            <h2>lijst {{ key }} behaalde in totaal: {{ value }} zetels.</h2>
+        {% endfor %}
+    </div>
+</div>
+</body>
+</html>
